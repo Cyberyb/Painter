@@ -72,6 +72,7 @@ void Canvas::drawCircle(ALGORITHM algo,Point &center,int r)
     int id = getNewID();
     PixelSet *p = new Circle(algo,center.x,center.y,r);
     p->refresh();
+    p->setColor(canvasColor);
     p->setID(id);
     PixelSets.push_back(p);
 }
@@ -81,6 +82,7 @@ void Canvas::drawPolygon(vector<Point> &vertexes)
     int id = getNewID();
     PixelSet *p = new Polygon(vertexes);
     p->setID(id);
+    p->setColor(canvasColor);
     PixelSets.push_back(p);
 }
 
