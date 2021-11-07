@@ -35,7 +35,7 @@ private:
     void refreshStateLabel();
 
     /*编辑状态*/
-    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE};
+    enum Draw_State{DRAW_CURVE,DRAW_LINE,NOT_DRAWING,DRAW_CIRCLE,DRAW_POLYGON};
     Draw_State state=NOT_DRAWING;
     void setState(Draw_State s);
 
@@ -51,8 +51,15 @@ private:
     enum CIRCLE_STATE {CIRCLE_NON,CIRCLE_FINISH};
     CIRCLE_STATE circle_state = CIRCLE_NON;
 
+    /*多边形*/
+    std::vector<Point> polygon_points;
+
     /*算法*/
     ALGORITHM algorithm;
+
+    /*改变颜色*/
+    QColor painterColor = 0x00FF00;
+    void setPainterColor(int coloritem , const QString &arg);
 
 //=====================================================================
 
@@ -86,5 +93,10 @@ private slots:
     void on_toolButton_2_clicked();
     void on_toolButton_3_clicked();
     void on_toolButton_4_clicked();
+    void on_Polygon_clicked();
+
+    void on_Red_textChanged(const QString &arg1);
+    void on_Green_textChanged(const QString &arg1);
+    void on_Blue_textChanged(const QString &arg1);
 };
 #endif // PAINTER_H

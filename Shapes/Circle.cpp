@@ -8,10 +8,6 @@ Circle::Circle(ALGORITHM algo,int x,int y,int r)
     algorithm = algo;
 }
 
-void Circle::setColor(QColor color)
-{
-    ccolor = color ;
-}
 
 void Circle::refresh()
 {

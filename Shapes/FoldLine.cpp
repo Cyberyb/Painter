@@ -13,7 +13,7 @@ void FoldLine::setVertexes(const vector<Point>& ivertexes)
 void FoldLine::paint(QImage * image)
 {
     QPainter myPainter(image);
-    QPen myPen(color);
+    QPen myPen(pixelColor);
     myPen.setWidth(width);
     myPen.setStyle(Qt::DashLine);
     myPainter.setPen(myPen);

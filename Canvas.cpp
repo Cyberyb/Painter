@@ -20,7 +20,7 @@ void Canvas::drawCurve(ALGORITHM algo, FoldLine *fl)
     PixelSet *p = new Curve(algo, fl);  //用折线构造曲线
     p->refresh();
     p->setID(id);
-    p->setColor(color);
+    p->setColor(canvasColor);
     PixelSets.push_back(p);
 }
 
@@ -32,7 +32,7 @@ void Canvas::drawLine(ALGORITHM algo,Point *st,Point *ed )
     PixelSet *p = new Line(algo, startp, endp);  //用点构造曲线
     p->refresh();
     p->setID(id);
-    p->setColor(color);
+    p->setColor(canvasColor);
     PixelSets.push_back(p);
 }
 
@@ -76,9 +76,17 @@ void Canvas::drawCircle(ALGORITHM algo,Point &center,int r)
     PixelSets.push_back(p);
 }
 
+void Canvas::drawPolygon(vector<Point> &vertexes)
+{
+    int id = getNewID();
+    PixelSet *p = new Polygon(vertexes);
+    p->setID(id);
+    PixelSets.push_back(p);
+}
+
 void Canvas::setColor(QColor pcolor)
 {
-    color=pcolor;
+    canvasColor=pcolor;
 }
 
 

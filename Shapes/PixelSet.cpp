@@ -3,7 +3,7 @@
 #include <QPen>
 void PixelSet::setColor(QColor pcolor)
 {
-    color=pcolor;
+    pixelColor=pcolor;
 }
 void PixelSet::setWidth(int iwidth)
 {
@@ -25,7 +25,7 @@ void PixelSet::paint(QImage *image)
     int y = image->size().height();
     //设置画笔属性
     QPainter myPainter(image);
-    QPen myPen(color);
+    QPen myPen(pixelColor);
     myPen.setWidth(width);
     myPen.setCapStyle(Qt::RoundCap); //可以设置为额外的PixelSet属性
     myPainter.setPen(myPen);

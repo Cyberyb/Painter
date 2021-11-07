@@ -5,7 +5,7 @@ CtrlPoint::CtrlPoint(int iindex, FoldLine *ifoldline,int iwidth, QColor icolor)
     index = iindex;
     foldline = ifoldline;
     width = iwidth;
-    color = icolor;
+    pixelColor = icolor;
 }
 
 int CtrlPoint::getID(int x, int y)
@@ -28,7 +28,7 @@ void CtrlPoint::paint(QImage * image)
          y = foldline->vertexes[index].y;
     }
     QPainter myPainter(image);
-    QPen myPen(color);
+    QPen myPen(pixelColor);
     myPen.setWidth(width);
     myPen.setCapStyle(Qt::RoundCap);
     myPainter.setPen(myPen);

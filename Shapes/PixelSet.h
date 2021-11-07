@@ -5,12 +5,12 @@
 #include <vector>
 #include <QImage>
 #include <QColor>
-
-class PixelSet{
+class PixelSet
+{
 
 protected:
     int id;
-    QColor color=0xFF0000;   //图形的颜色
+    QColor pixelColor=0xFF0000;   //图形的颜色
     std::vector<Point> points;
     int width = 1;
 public:

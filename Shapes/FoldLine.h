@@ -9,7 +9,7 @@ class FoldLine : public PixelSet
 {
 protected:
     vector<Point> vertexes;  //折线的转折点
-    int width;   //折线的线宽
+    int width = 2;   //折线的线宽
     friend class Curve;
     friend class CtrlPoint;
 public:

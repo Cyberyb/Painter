@@ -140,6 +140,7 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
 
                     if(line_points.size() == 2){
                         algorithm=ALGORITHM::DDA;
+                        //realCanvas = bufCanvas; //此项注释会影响最终直线有无两端点的点
                         realCanvas.drawLine(algorithm, &line_points[0], &line_points[1]);
                         line_points.clear();
                         setState(NOT_DRAWING);
@@ -148,35 +149,51 @@ void Painter::mouseReleaseEvent(QMouseEvent *event)
                 }
                 break;
         }
-    case DRAW_CIRCLE:{
-            if (event->button() == Qt::LeftButton) {
-                if(circle_state == CIRCLE_NON){
-                    circle_center.x = x;
-                    circle_center.y = y;//圆心
-                    circle_state = CIRCLE_FINISH;
+        case DRAW_CIRCLE:{
+                if (event->button() == Qt::LeftButton) {
+                    if(circle_state == CIRCLE_NON){
+                        circle_center.x = x;
+                        circle_center.y = y;//圆心
+                        circle_state = CIRCLE_FINISH;
+                    }
+                    else if(circle_state == CIRCLE_FINISH)
+                    {
+                        float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
+                                              (y-circle_center.y)*(y-circle_center.y));
+                        circle_r = qRound(distense);
+                        algorithm=ALGORITHM::MIDPOINT;
+                        bufCanvas = realCanvas;
+                        buf= true;
+                        bufCanvas.drawCircle(algorithm,circle_center,circle_r);
+                        update();
+                        realCanvas = bufCanvas;
+                        buf =false;
+                        realCanvas.drawCircle(algorithm,circle_center,circle_r);
+                        update();
+                        circle_state = CIRCLE_NON;
+                        setState(NOT_DRAWING);
+                    }
                 }
-                else if(circle_state == CIRCLE_FINISH)
-                {
-                    float distense = sqrt((x-circle_center.x)*(x-circle_center.x)+
-                                          (y-circle_center.y)*(y-circle_center.y));
-                    circle_r = qRound(distense);
-                    algorithm=ALGORITHM::MIDPOINT;
-                    bufCanvas = realCanvas;
-                    buf= true;
-                    bufCanvas.drawCircle(algorithm,circle_center,circle_r);
-                    update();
-                    realCanvas = bufCanvas;
-                    buf =false;
-                    realCanvas.drawCircle(algorithm,circle_center,circle_r);
-                    update();
-                    circle_state = CIRCLE_NON;
-                }
+        }
+            break;
+    case DRAW_POLYGON:{
+            if(event->button()==Qt::LeftButton){
+                polygon_points.push_back(Point(x,y));
+                realCanvas.drawPoint(Point(x,y));
+                update();
+            }
+            else if(event->button()==Qt::RightButton){
+                //realCanvas = bufCanvas;  //此项注释掉会在画出多边形时不隐藏顶点
+                buf = false;
+                realCanvas.drawPolygon(polygon_points);
+                polygon_points.clear();
+                update();
             }
     }
-    break;
+            break;
         case NOT_DRAWING:
             break;
-    }
+         }
     refreshStateLabel();
 }
 
@@ -221,5 +238,41 @@ void Painter::on_toolButton_clicked(){setState(DRAW_CURVE);}
 void Painter::on_toolButton_2_clicked(){setState(DRAW_LINE);}
 void Painter::on_toolButton_3_clicked(){setState(NOT_DRAWING);}
 void Painter::on_toolButton_4_clicked(){setState(DRAW_CIRCLE);}
+void Painter::on_Polygon_clicked(){setState(DRAW_POLYGON);}
+
+void Painter::on_Red_textChanged(const QString &arg1)
+{
+    setPainterColor(1,arg1);
+}
+
+
+void Painter::on_Green_textChanged(const QString &arg1)
+{
+    setPainterColor(2,arg1);
+}
+
+
+void Painter::on_Blue_textChanged(const QString &arg1)
+{
+    setPainterColor(3,arg1);
+}
+
+void Painter::setPainterColor(int coloritem, const QString &arg)
+{
+    if (coloritem == 1)
+    {
+        painterColor.setRed(arg.toInt());
+    }
+    else if (coloritem == 2)
+    {
+        painterColor.setGreen(arg.toInt());
+    }
+    else if (coloritem == 3)
+    {
+        painterColor.setBlue(arg.toInt());
+    }
+    bufCanvas.setColor(painterColor);
+    realCanvas.setColor(painterColor);
+}
 
 
